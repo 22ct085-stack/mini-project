@@ -7,4 +7,20 @@ import ARExplore from './pages/ARExplore';
 import ARNavigation from './pages/ARNavigation';
 import Businesses from './pages/Businesses';
 import BusinessAdmin from './pages/BusinessAdmin';
-export default function App() { return <BrowserRouter><Routes><Route path="/" element={<Home/>}/><Route path="/recommendations" element={<Recommendations/>}/><Route path="/ar" element={<ARExplore/>}/><Route path="/navigate" element={<ARNavigation/>}/><Route path="/businesses" element={<Businesses/>}/><Route path="/businesses/admin" element={<BusinessAdmin/>}/><Route path="/preferences" element={<Preferences/>}/><Route path="/about" element={<About/>}/><Route path="*" element={<Navigate to="/" replace/>}/></Routes></BrowserRouter>; }
+import Login from './pages/Login';
+import { AuthProvider } from './services/AuthContext';
+
+export default function App() {
+  return <AuthProvider><BrowserRouter><Routes>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/login" element={<Login/>}/>
+    <Route path="/recommendations" element={<Recommendations/>}/>
+    <Route path="/ar" element={<ARExplore/>}/>
+    <Route path="/navigate" element={<ARNavigation/>}/>
+    <Route path="/businesses" element={<Businesses/>}/>
+    <Route path="/businesses/admin" element={<BusinessAdmin/>}/>
+    <Route path="/preferences" element={<Preferences/>}/>
+    <Route path="/about" element={<About/>}/>
+    <Route path="*" element={<Navigate to="/" replace/>}/>
+  </Routes></BrowserRouter></AuthProvider>;
+}

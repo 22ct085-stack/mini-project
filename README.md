@@ -65,12 +65,14 @@ OPENWEATHER_API_KEY=your_openweather_api_key
 GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-3.8-flash
 BUSINESS_ADMIN_TOKEN=replace_with_a_long_random_admin_token
+# Use a unique random value of at least 32 characters for sign-in sessions.
+AUTH_TOKEN_SECRET=replace_with_at_least_32_random_characters
 MONGODB_URI=mongodb://127.0.0.1:27017/scade
 PORT=5000
 CLIENT_URL=http://localhost:5173
 ```
 
-`GOOGLE_MAPS_API_KEY` is used server-side for walking routes through Google Routes API. Keep it out of client environment files. `GEMINI_API_KEY` enables optional selection of precomputed explanations; if it is absent or fails, deterministic explanations are returned. `GEMINI_MODEL` defaults to `gemini-3.8-flash`. `MONGODB_URI` can be omitted for attractions and Google-only business searches, but is required for the curated business directory, community submissions, and admin review. `BUSINESS_ADMIN_TOKEN` protects staff endpoints; set a long random value only on the API server. Admins enter it at `/businesses/admin`; it stays in page memory and is sent via an `x-admin-token` header. The app needs `GOOGLE_PLACES_API_KEY` for places and location search and `OPENWEATHER_API_KEY` for weather. Missing keys return useful configuration errors; weather failure does not prevent recommendations.
+`GOOGLE_MAPS_API_KEY` is used server-side for walking routes through Google Routes API. Keep it out of client environment files. `GEMINI_API_KEY` enables optional selection of precomputed explanations; if it is absent or fails, deterministic explanations are returned. `GEMINI_MODEL` defaults to `gemini-3.8-flash`. `MONGODB_URI` can be omitted for attractions and Google-only business searches, but is required for the curated business directory, community submissions, account sign-in, and admin review. `AUTH_TOKEN_SECRET` is required for login sessions and should be a unique random value with at least 32 characters. `BUSINESS_ADMIN_TOKEN` protects staff endpoints; set a long random value only on the API server. Admins enter it at `/businesses/admin`; it stays in page memory and is sent via an `x-admin-token` header. The app needs `GOOGLE_PLACES_API_KEY` for places and location search and `OPENWEATHER_API_KEY` for weather. Missing keys return useful configuration errors; weather failure does not prevent recommendations.
 
 ## Provider setup
 
@@ -125,7 +127,7 @@ Deploy two Render services from the same Git repository. For both services, set 
 - Build command: `npm ci && npm run build --workspace server`
 - Start command: `npm start --workspace server`
 - Health check path: `/api/health`
-- Environment variables: `GOOGLE_PLACES_API_KEY`, `GOOGLE_MAPS_API_KEY`, `OPENWEATHER_API_KEY`, `BUSINESS_ADMIN_TOKEN`, and `CLIENT_URL` (set the frontend origin after creating the static site). `MONGODB_URI` is required for the local directory/admin tools; `GEMINI_API_KEY` is optional. Render supplies `PORT`.
+- Environment variables: `GOOGLE_PLACES_API_KEY`, `GOOGLE_MAPS_API_KEY`, `OPENWEATHER_API_KEY`, `BUSINESS_ADMIN_TOKEN`, `AUTH_TOKEN_SECRET`, and `CLIENT_URL` (set the frontend origin after creating the static site). `MONGODB_URI` is required for login and the local directory/admin tools; `GEMINI_API_KEY` is optional. Render supplies `PORT`.
 
 **Frontend static site**
 

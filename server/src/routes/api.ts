@@ -3,8 +3,13 @@ import { nearby, recommendations, weather, locationSearch } from '../controllers
 import { walkingRoute } from '../controllers/routeController';
 import { addVerifiedBusiness, discover, pendingSubmissions, submitBusiness, verifySubmission } from '../controllers/businessController';
 import { requireBusinessAdmin } from '../middleware/businessAdmin';
+import { currentUser, login, logout, register } from '../controllers/authController';
 const router = Router();
 router.get('/health', (_req, res) => res.json({ status: 'ok', service: 'S-CADE Sustainable Tourism API' }));
+router.post('/auth/register', register);
+router.post('/auth/login', login);
+router.get('/auth/me', currentUser);
+router.post('/auth/logout', logout);
 router.get('/places/nearby', nearby);
 router.get('/recommendations', recommendations);
 router.get('/weather', weather);
